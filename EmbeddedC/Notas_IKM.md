@@ -290,6 +290,7 @@ c = a+++b; // c = a++ + b;
 - Don't follow strict datatyping.
 - Harder to debug.
 - ``` #define AREA(l, b) (l * b)```
+- ``` #define MAX(a, b, c) (a > b ? a > c ? a : c : b > c ? b : c ) ```
 ### Inline Functions
 - Put the whole function body in the invocation call.
 - Can increase code size.
@@ -333,24 +334,24 @@ struct uart
 
 
 ## Loops:
-- ```for (a = 0,b = 0;a < 10,b < 5;a++,b++)``` "," ignore left side
+- ```for (a = 0,b = 0;a < 10,b < 5;a++,b++)``` "," is like an logical or.
 - ```for(;;) / while(1)``` infite loop
 
 
 ## Keywords:
 ### Static:
-- Maintain value between function invocations. (inside of a block)
-- Global scope within a module, both variables and functions. (outside of a block)
+- Maintain value between function invocations. (inside of a block).
+- Global scope within a module, both variables and functions. (outside of a block).
 ### Const:
 - Read-only.
 - Avoid modification, enforced by compiler.
-- A parameter be both const and volatile (I.E: Read only status registers)
+- A parameter be both const and volatile (I.E: Read only status registers).
 ### Volatile:
 - Tell compiler do not optimize it.
 - Tell the compiler to load the variable every time.
-- Variable could change anywhere
+- Variable could change anywhere.
 - I.E: registers / interrupt services variables / variable shared over multi-threaded.
-- A parameter be both const and volatile (I.E: Read only status registers)
+- A parameter be both const and volatile (I.E: Read only status registers).
 - Pointers can be volatile (ISR modifies a pointer to a buffer).
 - Has no return value.
 - Disabling Interrupt increase the interrupt latency.
@@ -361,7 +362,7 @@ struct uart
 - Interrupt latencY -> Time between Interrupt request and the start of the Interrupt routine.
 - Can be a nested interrupt -> the highest priority interrupt will be only one not interrupted.
 ### extern:
-- To use variable defined in one file into a different file
+- To use variable defined in one file into a different file.
 ### register:
 - Storing a variable in a processor register for faster access.
 - Its a sugestion to the compiler, it's not guaranteed
@@ -374,20 +375,26 @@ struct uart
 
 
 ## Embedded C Errors:
+- Syntax errors.
+- Linker errors.
+- Run-time errors.
+- Logical errors.
+- Semantic errors.
 ### Segmentation Fault:
 - When you try to access a restricted memory location.
 - Use a de-referenced pointer (pointer with invalid address location).
 - Access Read-Only memory region.
 - Access already freed pointer.
+  - Core dump: is a file that is usually written when the application crashes.
 ### Stack Overflow:
-- Use more memory than the memory allocated to the stack
+- Use more memory than the memory allocated to the stack.
 
 
 ## Compiler Pre-procesor:
 ### Include:
 - contents of the specified file to be inserted into the original file.
 - <> standard library header.
-- "" user define header
+- "" user define header.
 ### Error:
 - Cause pre-proessing to stop.
 - Message given is the output of the error.
@@ -564,4 +571,20 @@ int const a; // Const int
 const int *a; // Pointer to const int
 int * const a; // Const pointer to integer
 int const * a const; //const pointer to a const integer
+```
+### Byte Swap
+```
+32bits
+return  ((num>>24)&0xff) | ((num<<8)&0xff0000) | ((num>>8)&0xff00) | ((num<<24)&0xff000000);
+
+16bits
+return (num>>8) | (num<<8);
+```
+### Swaping without extra variable
+```
+void swap(int *a, int *b){
+  *a = *a + *b;
+  *b = *a - *b;
+  *a = *a - *b;
+}
 ```
