@@ -1,4 +1,7 @@
 # Embedded C Notes
+- Fized-point arithmetic
+- Basic I/O Hardware addressing.
+- Named address spaces.
 
 
 ## main (int x, char *y []):
@@ -72,6 +75,10 @@ output = (input & 0x000E) << 8
 - C Implementation:
   - ``~x``
 - Problems representing -0.
+#### ## operator:
+- Token passing / Concatenation
+- Concatenate the two arguments.
+  - I.E: ``` a##b -> ab```
 #### Helper:
 ```
 #define SET_BIT(reg,n)    ( reg |= (1<<(n-1)) )
@@ -83,6 +90,7 @@ output = (input & 0x000E) << 8
 
 
 ## C Data Type:
+- Size is decided by compiler, but OS can still enforce.
 - May change due to MCU size (8bits vs 32 bits)
 - It's better to ``` #define uint8_t```
 | Type               | Bits    | Range                                       | Printf Symbol |
@@ -115,11 +123,21 @@ output = (input & 0x000E) << 8
 - e: used for Scientific notation.
 - Printf is filled in stack from right to left (first last variable, then the second latest varaible, then the address of format string)
 - Evaluation order for the printf is not specified.
+- Uses dynamic memory alocation.
+- Consumes a lot of time.
 
 
 ## Pointers:
+- Variable holdeing a memory address to a datatype
 - Void pointer are generic type of pointers that point to any datatype.
-- Void pointer need to be dereferenced to the correct data type
+- Void pointer need to be dereferenced to the correct data type (proper type casting).
+- Forward referencing -> Compiler shall reseve the memory space for the pointer, but the data is not ar all defined.
+- Wild pointers -> Uninitializrd pointer / points to arbitrary (random) memory location.
+- Near Pointer -> used to store the 16-bit addresses. / can only access the first 64 kb of data using near-pointers.
+- Far pointer -> typically 32 bit that can access memory outside current segment.
+- Dangling Pointer -> when is freed or de-allocated and it's not assigned to NULL. / Still contain an address after work is done.
+- NULL pointer points to nowhere.
+  - Used to initialize pointer and avoid having A POINTER TO garbage.
 ```
 int a = 5;
 void *b = &a;
@@ -193,16 +211,25 @@ ptr = (int *)0x67a9;
 
 
 ## Hardware Related:
+### Power Consumption:
+- Use power mode to reduce power usage.
+- Lowering CPU Clock speed.
+- Turn off periferal when not used.
 ### Clock Speed:
 - f (Hz) = 1/ T(s)
   - ``` 1 / (0.018) = 55.5Hz ```
 ### Duty-Cycle:
 - Time High / Total period * 100
   - 20ms / 50ms * 100 = 40%
+### Pull-up resistor:
+- Use to keep an unused input pin a high value.
+### Pull-down resistor:
+- Use to keep an unused input pin a low value.
 ### Signal Processing:
 - High-Pass filter: remove low-frequency signals.
 - Low-Pass filter: Allow only lower than the cutoff frequency.
 - Increasing sample rate and apply filtering to the digitized signal could solve some issues.
+- To collect data in parallel and in sync -> User timmers (to coordinate the collection in sync) and DMA
 ### Embedded Systems Periferals:
 - Serial Communication Interfaces (SCI) like RS-232, RS-422, RS-485, etc.
 - Synchronous Serial Communication Interface like I2C, SPI, SSC, and ESSI.
@@ -256,23 +283,27 @@ c = a+++b; // c = a++ + b;
 
 
 ## Macros:
-- Can be referenced through their addresses
+- Can be referenced through their addresses.
 ### Macro Functions
-- Expanded by pre-processor
-- Expression evaluated more than onece
-- Don't follow strict datatyping
-- Harder to debug
+- Expanded by pre-processor.
+- Expression evaluated more than onece.
+- Don't follow strict datatyping.
+- Harder to debug.
 - ``` #define AREA(l, b) (l * b)```
 ### Inline Functions
-- Expanded by compiler
-- Expression are evaluated once
-- strict datatype checking
-- Easier to debug
+- Put the whole function body in the invocation call.
+- Can increase code size.
+- Reduce context overhead and context switching.
+- Expanded by compiler.
+- Expression are evaluated once.
+- Strict datatype checking.
+- Easier to debug.
 - If is not static, then the compiler must assume that there may be calls from other source files.
 - ``` inline double square(double x) { return x*x; } ```
 
 
 ## Registers:
+- Commonly use volatile
 - Can be referenced through their addresses
 - Types:
   - Accumulator -> used for all arithmetic and logic operations.
@@ -308,8 +339,8 @@ struct uart
 
 ## Keywords:
 ### Static:
-- Maintain value between function invocations.
-- Global scope within a module, both variables and functions.
+- Maintain value between function invocations. (inside of a block)
+- Global scope within a module, both variables and functions. (outside of a block)
 ### Const:
 - Read-only.
 - Avoid modification, enforced by compiler.
@@ -320,15 +351,20 @@ struct uart
 - Variable could change anywhere
 - I.E: registers / interrupt services variables / variable shared over multi-threaded.
 - A parameter be both const and volatile (I.E: Read only status registers)
-- Pointers can be volatile (ISR modifies a pointer to a buffer)
+- Pointers can be volatile (ISR modifies a pointer to a buffer).
+- Has no return value.
+- Disabling Interrupt increase the interrupt latency.
 ### __interrupt:
 - ISR
 - Should be short and sweet
 - Consider re-entrancy and performance of the ISR operation.
+- Interrupt latencY -> Time between Interrupt request and the start of the Interrupt routine.
+- Can be a nested interrupt -> the highest priority interrupt will be only one not interrupted.
 ### extern:
 - To use variable defined in one file into a different file
 ### register:
-- Storing a variable in a processor register for faster access
+- Storing a variable in a processor register for faster access.
+- Its a sugestion to the compiler, it's not guaranteed
 - Stored directly in ALU (Arithmetic Logic Unit)
 - ``` register int i = 10;```
 - Cannot be acessed by "&"
@@ -340,11 +376,18 @@ struct uart
 ## Embedded C Errors:
 ### Segmentation Fault:
 - When you try to access a restricted memory location.
+- Use a de-referenced pointer (pointer with invalid address location).
+- Access Read-Only memory region.
+- Access already freed pointer.
 ### Stack Overflow:
 - Use more memory than the memory allocated to the stack
 
 
 ## Compiler Pre-procesor:
+### Include:
+- contents of the specified file to be inserted into the original file.
+- <> standard library header.
+- "" user define header
 ### Error:
 - Cause pre-proessing to stop.
 - Message given is the output of the error.
@@ -372,12 +415,16 @@ struct uart
 ### Dynamic Memory Allocation:
 - Problems with memory fragmentation, problems with garbage collection, variable execution time.
 - malloc(0) is implementation defined, so that the correct answer is ‘it depends’.
-- Memory Leaks
-- Lack of Determinism and Prdictability
-- Limited Heap Size
-- Fragmented Code Space
+- Memory Leaks.
+- Lack of Determinism and Predictability.
+- Limited Heap Size.
+- Fragmented Code Space.
 - Memory Management Overhead.
 - No Memory Safety Guarantees.
+- malloc() -> allocate single block of memory. / Reserves the requested memory.
+- calloc() -> n blocks of memory. / Initializes all the bytes with a zero.
+- realloc() -> reallocate the already allocated memory while keeping the already initialized .values intact.
+- free() -> free memory ```free(p)```
 ### Stack:
 - Part of RAM
 - Hold both return addresses and local variables used inside the functions.
@@ -452,6 +499,7 @@ struct uart
    3. BSS (Block Started by Symbol) -> Uninitializaed global and static variables. -> located in RAM.
 5. Heap -> dynamically allocated portion of RAM.
 6. Stack -> function call mechanics portion of the RAM.
+
 ![image](./memorymap.png)
 
 
@@ -460,6 +508,8 @@ struct uart
 - Control alignment, padding, and symbol placement.
 - Text file in embedded systems that guides the linker during the compilation process.
 - uses .ld extention
+- Static linking -> linker copying all the library routines used in the program into the executable image. / May require more disk space and memory. / more protable and faster than dynamic linking.
+- Dynamic Linking - > placing the name of a sharable library in the excecutable image / Actual linking is done at runtime / multiple program can share a single copy of the library.
 ### Components:
 1. Memory: efines the available memory regions / start addresses, sizes, and access permissions.
 2. Sections: placement of different sections within the memory regions defined in the MEMORY block. (text or data or bss)
