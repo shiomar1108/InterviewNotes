@@ -63,33 +63,34 @@ max = a > b ? a > c ? a : c : b > c ? b : c
 ```
 ### Bitwise operations:
 #### Or (|):
-- Only True if both operant are True.
+- Only ```False``` if both operants are False.
 #### Xor (^):
-- Only True if both operant are equal.
+- Only ```True``` if both operants are different.
 #### And (&):
+- Only ```True``` if both operants are True.
 - Can be used to check is a bit is on of off.
   - C Implementation: ```n & (1 << k)```
 #### Bitwise shift (<< / >>):
 - Binary operator.
 - Cannot be used on negative integers.
 - Can be used to multiply by the powe of two.
-  - ``` a << b = a * 2^b ```
+  - ``` a << b = a * 2^b ```.
 - Coyy bit 1, 2, 3 to 9, 10, 11:
 ```
 output = input << 8 & 0x0E00
 output = (input & 0x000E) << 8
 ```
-- An n-bit field of x that begins at position p
-  - ``` (x >> ( p + 1 - n)) & ~( ~ 0 << n ) ```
+- An n-bit field of x that begins at position p:
+  - ``` (x >> ( p + 1 - n)) & ~( ~ 0 << n ) ```.
 #### 2's complement:
 - Representation of negative numbers.
-- Easy conversion:
+- Step for easy conversion:
   - Same number from right to left.
   - Afer first "1" encounter, Invert all the rest not including the first "1".
   - Least significant before the first "1" is the same.
-  - ``I.E = -7 = 0000 0000 0000 0111b -> 1111 1111 1111 1001b = 0xFFF9.``
+  - ``I.E = -7 = 0000 0000 0000 0111b -> 1111 1111 1111 1001b = 0xFFF9.``.
 - C Implementation:
-  - ```y=((x^^0xFFFF)++)&&0xFFFF;```
+  - ```y=((x^^0xFFFF)++)&&0xFFFF;```.
 - Use case: Binary substraction (adding one number to the 2' complement to the negative one).
 #### 1's complement:
 - Representation of negative numbers.
@@ -98,11 +99,11 @@ output = (input & 0x000E) << 8
   - Negate all the bits in a numnber.
 - C Implementation:
   - ``~x``
-- Problems representing -0.
+- Problems because it has ```-0```.
 #### ## operator:
 - Token passing / Concatenation.
 - Concatenate the two arguments.
-  - I.E: ``` a##b -> ab```
+  - I.E: ``` a##b -> ab```.
 #### Helper:
 ```
 #define SET_BIT(reg,n)    ( reg |= (1<<(n-1)) )
@@ -141,10 +142,11 @@ output = (input & 0x000E) << 8
 ### Printf:
 - It recieves a varaible number of arguments.
 - Could be use to convert integer to float or float to an integer.
-- o: used to print octal numbers.
-- x: used to print hexadecimal.
-- p: used to print pointer address.
-- e: used for Scientific notation. - #: Used with o, x or X specifiers the value is preceded with 0, 0x or 0X respectively for values different than zero.
+- `o`: used to print octal numbers.
+- `x`: used to print hexadecimal.
+- `p`: used to print pointer address.
+- `e`: used for Scientific notation. 
+- `#`: Used with o, x or X specifiers the value is preceded with 0, 0x or 0X respectively for values different than zero.
 - Printf is filled in stack from right to left (first lastest variable, then the second latest varaible, then the address of format string).
 - Evaluation order for the printf is not specified.
 - Uses dynamic memory alocation.
@@ -205,7 +207,7 @@ const char* p = "Samuel" -> non-constan pointer that points to a const string
 char a [] = "Samuel -> Const pointer that points to a non-const string.
 Both will have "\0" at the end.
 ```
-- Set variable using addres (pointers)
+- Set variable using addres (pointers):
 ```
 set an integer variable at the absolute address 0x67a9 to the value 0xaa55
 
@@ -394,7 +396,7 @@ while ((*dev_reg & 1) == 0)
 - Storing a variable in a processor register for faster access.
 - Its a sugestion to the compiler, it's not guaranteed.
 - Stored directly in ALU (Arithmetic Logic Unit).
-- ``` register int i = 10;```
+- ``` register int i = 10;```.
 - Cannot be acessed by "&".
 - Can be used with pointer variable ```register int* a = &i;```.
 - Cannot be used with static.
@@ -442,7 +444,7 @@ while ((*dev_reg & 1) == 0)
 - If one operand is a long −> The entire expression is promoted to long.
 - If one operand is a float −> The entire expression is promoted to float.
 - If any of the operands is double −> The result is promoted to double.
-- Expressions involving signed and unsigned types have all operands promoted to unsigned types
+- Expressions involving signed and unsigned types have all operands promoted to unsigned types.
 
 
 ## Memory:
