@@ -28,6 +28,28 @@ void CallFuncNumTimes(void (* function)(), int num_of_times){
 ...
 CallFuncNumTimes(func1, 5);
 ```
+```
+int SUM (int a, int b){
+  retunr (a+b;)
+}
+...
+int (*fp)(int, int);
+fp = SUM
+fp(1+2)
+```
+```
+int SUM (int a, int b){
+  retunr (a+b;)
+}
+...
+int MUL (int a, int b){
+  retunr (a*b;)
+}
+...
+int (*fp[])(int, int) = {SUM,MUL};
+fp[0](1+2) // 3
+fp[1](1+2) //2
+```
 
 
 ## Operations:
@@ -289,6 +311,7 @@ c = a+++b; // c = a++ + b;
 - Expression evaluated more than onece.
 - Don't follow strict datatyping.
 - Harder to debug.
+- Text replacement everytime.
 - ``` #define AREA(l, b) (l * b)```
 - ``` #define MAX(a, b, c) (a > b ? a > c ? a : c : b > c ? b : c ) ```
 ### Inline Functions
@@ -299,6 +322,7 @@ c = a+++b; // c = a++ + b;
 - Expression are evaluated once.
 - Strict datatype checking.
 - Easier to debug.
+- Compile replacement, when call happens
 - If is not static, then the compiler must assume that there may be calls from other source files.
 - ``` inline double square(double x) { return x*x; } ```
 
@@ -320,7 +344,9 @@ unsigned *char dev_reg = (unsigned char *)0x80000000;
 while ((*dev_reg & 1) == 0)
 ```
 ### Bit Fields
-- Is compiler dependent
+- Is compiler dependent.
+- Will allocate at least one of the largest declared datatype and try to fit everythong there.
+  - If not posible will allocate a new space of the largests and continue.
 ```
 struct uart
 {
@@ -340,8 +366,8 @@ struct uart
 
 ## Keywords:
 ### Static:
-- Maintain value between function invocations. (inside of a block).
-- Global scope within a module, both variables and functions. (outside of a block).
+- Maintain value between future function invocations. (inside of a function block).
+- Local scope within a module, both variables and functions. (on a file).
 ### Const:
 - Read-only.
 - Avoid modification, enforced by compiler.
@@ -586,5 +612,13 @@ void swap(int *a, int *b){
   *a = *a + *b;
   *b = *a - *b;
   *a = *a - *b;
+}
+```
+```
+a = 10 , b = 15
+void swap(int a, int b){
+  a ^= b; //5
+  b ^= a; //10
+  a ^= b; //15
 }
 ```
