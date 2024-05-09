@@ -251,6 +251,14 @@ ptr = (int *)0x67a9;
 - Use to keep an unused input pin a high value.
 ### Pull-down resistor:
 - Use to keep an unused input pin a low value.
+### Parity:
+- Method of error-checking.
+- A parity check consists of a single bit that is set.
+- detect a single bit error, or an error in an odd number of bits.
+#### Even Parity:
+-  The parity bit is set if an odd number of bits in the data are set to 1 (to make the total number of 1 bits even).
+#### Odd Parity:
+- Generates a parity bit if there are an even number of high-bits in the data
 ### Signal Processing:
 - High-Pass filter: Remove low-frequency signals.
 - Low-Pass filter: Allow only lower than the cutoff frequency.
@@ -401,8 +409,82 @@ while ((*dev_reg & 1) == 0)
 - Can be used with pointer variable ```register int* a = &i;```.
 - Cannot be used with static.
 - Cannot be used on global scope.
+### Typedef:
+- Create an additional name (alias) for another data type, but does not create a new type
+``` 
+typedef int points;
+points high_score = 0;
+```
+```
+struct MyStruct {
+    int data1;
+    char data2;
+};
+typedef struct MyStruct newtype;
+...
+newtype a;
+```
+```
+typedef struct MyStruct {
+    int data1;
+    char data2;
+} newtype;
+...
+newtype a;
+```
+#### Typedef with pointer:
+```
+typedef int *intptr;
+intptr ptr;
+const intptr ptr2 = NULL; // int *const ptr = NULL;
+```
+#### Typedef with Struct:
+```
+typedef struct Node Node;
 
+struct Node {
+    int data;
+    Node *nextptr;
+};
+```
+#### Typedef with function pointers:
+```
+typedef int (*MathFunc)(float, int);
+...
+MathFunc call_this
+```
+#### Typedef with arrays
+```
+typedef char arrType[6];
+...
+arrType arr = {1, 2, 3, 4, 5, 6};
+arrType *pArr;
+```
+### Union:
+- Store different data types in the same memory location.
+- Only one member can contain a value at any given time.
+- Efficient way of using the same memory location for multiple purpose.
+- Stores all its members in the same memory location.
+- Compiler allocates a chunk of memory of the size enough to accommodate the element of the largest byte size.
+```
+union [union tag]{
+   member definition;
+   member definition;
+   ...
+   member definition;
+} [one or more union variables];  
+```
+```
+union un {
+    int member1;
+    char member2;
+    float member3;
+};
+...
+union un var1;
+var1.member1 = 15;
 
+```
 ## Embedded C Errors:
 - Syntax errors.
 - Linker errors.
