@@ -14,7 +14,7 @@
 - Recieve request -> Validate service -> Take ACTION -> Reply.
 - ISO 14229.
 ### Path:
-::: mermaid
+```mermaid
 graph TD;
     Application <--> RTE
     RTE <--> DCM
@@ -23,7 +23,7 @@ graph TD;
     PduR <--> BusTp
     BusTp <--> BusIf
     BusIf <--> BusDriver
-:::
+```
 #### DCM Layers:
 - DSL (Diagnostic Session Layer):
   - Accept request from PduR and pass it to DSD. Other way as well.
