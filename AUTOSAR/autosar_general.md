@@ -22,8 +22,10 @@
 ### ECU Extract:
 ### ECU Configuration Description:
 
+
 ## MCAL:
 - Software module that has direct access to all the on-chip MCU Periferals.
+
 
 ## AUTOSAR Classic:
 - Based on OSEK Os:
@@ -31,6 +33,7 @@
   - Safety Critical.
   - Real time requirements.
 - Uses Embedded C.
+
 
 ## AUTOSAR Adaptive:
 - Based on Posix OS:
@@ -41,3 +44,25 @@
 - Secure on-board communication.
 - Service orientes Architecture.
 - Ethernet with SOME/IP.
+
+
+## Importan Files:
+### AUTOSAR Sys-D:
+- .ARXML
+- System design / Software Architecture.
+- Define HW Topology.
+- Define SW-Cs, Runnables, Data Mapping of SW-Cs.
+- Communication Matrix.
+- Exported as AUTOSAR Sys-D.
+### AUTOSAR SWC-D:
+- .ARXML
+- Definition of ECU Application (SWC).
+- Model Application Behaviour.
+- Define ports and Data types.
+- Create SW-C Description.
+- Export SW-C Description.
+- Generate Application Code. 
+### AUTOSAR BSW-Config
+- .epc / .xdm
+- Configuration of ECU Basic Software.
+- 
