@@ -9,6 +9,17 @@
 - Protocol Independent.
 - Packs the signal to a PDU at Tx.
 - Unpacks Rx PDU to provide signal access.
+- Signal:
+  - Basic communication object.
+  - Primite data (Int, char).
+- Signal Group:
+  - Struct.
+- PDU:
+  - Protocol Data Unit.
+  - Basic data trasnfer unit.
+  - Singal bundeled into PDU for Tx.
+  - PDU split into Signal for Rx.
+  - `PDU = SDU (Service Data Unit) + PCI (Protocol Control Information)`
 
 
 ## AUTOSAR PDU Router:

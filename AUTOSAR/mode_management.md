@@ -2,6 +2,14 @@
 - ECU State (Bsw Mode) Manager.
 - Watchdog Management.
 - Communication Managment.
+- Can be used to track system state changes.
+- Defining Modes is a special case of S/R communication.
+- One SW-C act as as Mode Manager (Mode Machine Instance).
+- Mode users will listen to mode changes.
+- Mode Disabling Dependencies are used to disable runnables during certain modes.
+- Mode Switch events are trigger:
+  - On Enter.
+  - On Exit.
 
 
 ## StartUp Process:
@@ -56,4 +64,3 @@ graph LR;
 - Handle bus error managment.
 - Support Partial Networks.
 - Offers an API to siable sending of signals to prevent the ECU from waking the bus.
-- 

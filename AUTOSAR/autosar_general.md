@@ -9,10 +9,11 @@
       - Handle communication within the ECU and between ECUs.
   - Basic Software:
     - Standarized Sofware Layer.
-    - Divided in thre levels.
+    - Divided in three levels.
       - `Services`.
       - `ECU Abstraction`.
       - `MCU Abstraccion`.
+        - Based on ECU Hardware.
 - Metamodel -> UML 2.0.
 - Specification only.
 
