@@ -1,6 +1,6 @@
 # General AUTOSAR Notes:
 - `AUTomotive Open System ARchiteture`.
-- Created o 2003.
+- Created in 2003.
 - Based on 3 layers:
   - Application Layer.
   - Runtime Enviroment.
@@ -19,9 +19,28 @@
 
 
 ## Methodology:
-### System Configuration Description:
-### ECU Extract:
-### ECU Configuration Description:
+- System Configuration Description:
+- ECU Extract:
+- ECU Configuration Description:
+- Flow:
+  - Configure System:
+    - Map Software components to ECU based on resource, timming and requirements.
+  - Configure ECU:
+    - Like Task mapping and scheduling.
+    - Bsw Configuration.
+    - Core Partition.
+```mermaid
+graph LR;
+  id1[System Development] -- Configure System -->  id2[System Configuration]
+  id1 ~~~|"Software Components <br>Hardware Selection<br>Overall System<br>ECU Resources"| id1
+  id2 ~~~|"Includes Bus mapping<br>Topoloty and mapping<br>of SWC to ECU"| id2
+  id2[System Configuration] -- Extract ECU Information -->  id3[ECU Extract]
+  id3 ~~~|"Flatview.arxml<br>Flatmap.arxml<br>ECUExtract.arxml"| id3
+  id3[ECU Extract] -- Configure ECU -->  id4[ECU Configuration]
+  id4 ~~~|"All inputs<br>related to a local<br>ECU"| id4
+  id4[ECU Configuration] -- RTE Generator -->  id5[RTE Layer]
+  id5 ~~~|"Create RTE Layer<br>for each ECU"| id5
+```
 
 
 ## MCAL:
@@ -66,4 +85,13 @@
 ### AUTOSAR BSW-Config
 - .epc / .xdm
 - Configuration of ECU Basic Software.
-- 
+
+
+## AUTOSAR DataType:
+- SwDataDefProps.
+- Application Data Categories -> CompuMethdod -> Implementation Data Type -> Base Type
+- Naming convention:
+  - 128 characters.
+  - Start with letter.
+  - Without underscore.
+- Recommended to set default.

@@ -4,6 +4,8 @@
     - .ARXML
   - SW-C Source code:
     - *.c / *.h
+- Follow AUTOSAR Specification:
+  - `AUTOSAR_TPS_SoftwareComponentTemplate.pdf`
 
 ## Process:
 1. Create SW-C Descriptor:
@@ -19,7 +21,14 @@
 - Hardware independant.
 - Standarized.
 - Interoperability of Application SW-C.
+### Provider:
+- Sent information to a SW-C.
+### Required:
+- Reciev infomration from a SW-C.
+### Provider/Required:
+- Has the capability of both send and recieve information.
 ### Sender-Reciever (S/R):
+- Asynchronous.
 - Exchange data.
 - 1 Sender : N receivers.
 - N senders : 1 reciever.
@@ -92,24 +101,126 @@
 - Movable accros MCUs.
 - Has communication with Bsw using AUTOSAR Services.
 - Realize a defined functionality on application level.
+- Hold the functionality of the software.
 ### Sensor-Actuator:
 - Make the functionality of a sensor or an actuator usable for other SW-C.
 - Linked to a specific Hardware.
 - Cannot be relocated.
 ### Parameter:
+- Provide calibration only data to the software.
 ### Composition:
+- Atomic Software components together to adress a complete functional implementation of the software.
+- Agrregates components and connection between it sub-components.
 ### Service Proxy:
 - Acts as a proxy to provide access to internal services.
 - 1:M
+- Used when a particular service component is to be accessed from a different control unit.
 ### Service:
 - Interact directly with Bsw Modules.
+- Used for configuring services for a particual control unit.
 ### ECU Abstraction:
+- Part of Bsw.
 - I/O Hardware abstraction.
 - Provide access to ECUs specific I/O Capabilities.
+- Act as an interface between MCAL and Sensor Actuator Components on the Application SW-C.
 ### Complex Device Driver (CDD):
 - Model a function outside normal Bsw.
 - For HW not directly supported by AUTOSAR.
 - Directly access to HW.
+- Provide easy access to hardware directly from application later to fulfill special timming.
 ### Nv Block:
 - Provide access to non-volatile data.
 - Allow modeling of NV data at VFB Level.
+- Used when having interfaces on the Aplication layer to be sotred on NV Memory.
+
+
+## Runnable:
+- Part of SW-C.
+- Smallest Unit. / Smallest code fragment that is provided by the SW-C.
+- Schedule by Os.
+- Need an entry point for each runnable.
+- Only part of Atomic SW-C (Not Composition).
+- `<symbol>` define the name of the C function.
+- Excecuted and Scheduled independtly.
+- Started by RTE.
+- Implemented as C functions.
+- Must be mapped to a Task, as taks is the owner of resources and priority.
+### Events, Timmers, Interrupts:
+- Periodic events that can trigger a Runnable:
+  - Timmer.
+  - Schedule table.
+  - Interrupt.
+  - Data Receiving.
+    - Sender reciever Comm - Inter ECU.
+      - `Com_SendSignal`.
+      - `Com_ReceiveSignal`.
+### Explicit:
+- Data is send as is.
+- RTE done't check message consistency.
+### Implicit:
+- RTE will check for message consistency.
+
+
+## Connectors:
+- Used to complete the connection between prototypes.
+- Assembly connector:
+  - Provider-Required.
+  - Inside Composition.
+- Delegation Port:
+  - Same por type.
+  - Different Composition.
+- Pass through Connector.
+
+
+## Events:
+- It specifies the Os on when and how call runnables.
+- Timming is based on seconds.
+### General Events:
+- Init event.
+- Timming event.
+- External trigger occurred event.
+- Internal trigger occurred event.
+- Background event.
+### Client Server Events:
+- Operation Invoke Events.
+- Asynchronous Server call result event.
+### Data Events:
+- Data Write complete event.
+- Data Send complete event.
+- Data Receive event.
+- Data Recieve Error event.
+### Mode Events:
+- Mode Switch event.
+- Mode Manager Error event.
+- Mode Switch ACK event.
+
+
+## ARXML File:
+- Software Component Type: Aplication SW-C.
+```
+├─ Ports
+│  ├─ P-Ports
+│  │  ├─ S/R Interface
+│  │  └─ C/S Interface
+│  └─ R-Ports
+│     ├─ S/R Interface
+│     └─ C/S Interface
+├─ Internal Behaviour
+│  ├─ Events
+│  │  ├─ Timming Event
+|  |  ├─ XYZ Evenet
+│  │  └─ Init Event
+│  └─ Runnables
+│     ├─ Function_1
+│     │  └─ Data Access
+│     └─ Function_XYZ
+│        └─ Data Access
+└─ SWC Implementation
+   └─ Delivery Info
+```
+
+
+## C File:
+- Add RTE Application header:
+  - `#include "Rte_<SWCName>.h`.
+  - One configured runnable for each function in hte C file.
