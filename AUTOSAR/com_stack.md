@@ -20,6 +20,10 @@
   - Singal bundeled into PDU for Tx.
   - PDU split into Signal for Rx.
   - `PDU = SDU (Service Data Unit) + PCI (Protocol Control Information)`
+  - PDU is SDU of lower layer + Lower Layer PCI.
+  - Lower Layer SDU is Lower Layer PDU.
+
+![image](./PDU.png)
 
 
 ## AUTOSAR PDU Router:
