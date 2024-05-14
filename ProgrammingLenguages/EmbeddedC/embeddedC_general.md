@@ -1,4 +1,4 @@
-# Embedded C Notes
+# Embedded C Interview Notes:
 - Fized-point arithmetic.
 - Basic I/O Hardware addressing.
 - Named address spaces.

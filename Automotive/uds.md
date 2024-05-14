@@ -1,4 +1,4 @@
-# UDS Protocol:
+# UDS Protocol Interview Notes:
 - Standard Protocol for Testing Communication.
 - Collection of Diagnostic Services:
   - Requesting for Data.

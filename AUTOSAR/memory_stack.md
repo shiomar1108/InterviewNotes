@@ -1,4 +1,4 @@
-# Memory Stack:
+# Memory Stack Interview Notes:
 - Service Layer:
   - NVRam Manager.
 - ECU Abstraction Layer:

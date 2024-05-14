@@ -1,4 +1,4 @@
-# Mode Management:
+# Mode Management Interview Notes:
 - ECU State (Bsw Mode) Manager.
 - Watchdog Management.
 - Communication Managment.

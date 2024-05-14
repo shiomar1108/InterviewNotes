@@ -1,4 +1,4 @@
-# Software Component (SW-C):
+# Software Component (SW-C) Interview Notes:
 - Two parts:
   - SW-C Description:
     - .ARXML

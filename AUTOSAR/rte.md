@@ -1,4 +1,4 @@
-# RTE (Runtime Enviroment):
+# RTE (Runtime Enviroment) Interview Notes:
 - Implements the VFB on each ECU.
 - Its the only interface between SW-C and BSW Modules.
   - Communication infraestructure.

@@ -1,4 +1,4 @@
-# General AUTOSAR Notes:
+# General AUTOSAR Interview Notes:
 - `AUTomotive Open System ARchiteture`.
 - Created in 2003.
 - Based on 3 layers:

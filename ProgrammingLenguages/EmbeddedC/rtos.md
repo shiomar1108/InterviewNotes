@@ -1,4 +1,4 @@
-# RTOS Notes:
+# RTOS Interview Notes:
 - Logical correctness of the operation within a deterministic deadlines.
 - Can support this real-time functioning.
 

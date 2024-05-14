@@ -1,4 +1,4 @@
-# AUTOSAR Diagnostic Stack Notes:
+# AUTOSAR Diagnostic Stack Interview Notes:
 - Identification of SW and HW Version.
 - Fault Managment.
 - Coding Adaptation and Calibration.
